@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { useStore } from "../stores";
 import { useDidMount, useWillUnmount } from "@better-hooks/lifecycle";
 import { observer } from "mobx-react-lite";
 import dayjs from 'dayjs';
 import { Link, useParams } from "react-router-dom";
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Box, Card, CardContent, Chip, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Box, Button, Card, CardContent, Chip, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { ExpandMore } from "@mui/icons-material";
+import { ArrowDownward, ArrowUpward, ExpandMore } from "@mui/icons-material";
 
 export const Issue: React.FC = observer((props) => {
   const { pageStore, issueStore } = useStore();
   const { id: issueId } = useParams();
+  const [ showMoreinfo, setShowMoreInfo ] = useState(false);
 
   useDidMount(() => {
     pageStore.fetch();
@@ -104,7 +105,7 @@ export const Issue: React.FC = observer((props) => {
                   <Table aria-label="simple table">
                     <TableBody>
                       <TableRow>
-                        <TableCell component="th" scope="row">
+                        <TableCell component="th" scope="row" width={180}>
                           優先度
                         </TableCell>
                         <TableCell scope="row">
@@ -119,30 +120,34 @@ export const Issue: React.FC = observer((props) => {
                           {issueStore.issue.category?.map((category) => category.name).join(",")}
                         </TableCell>
                       </TableRow>
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          発生バージョン
-                        </TableCell>
-                        <TableCell scope="row">
-                          {issueStore.issue.versions?.map((version) => version.name).join(",")}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          予定時間
-                        </TableCell>
-                        <TableCell scope="row">
-                          {issueStore.issue.estimatedHours}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          完了理由
-                        </TableCell>
-                        <TableCell scope="row">
-                          {issueStore.issue.resolution?.name}
-                        </TableCell>
-                      </TableRow>
+                      {showMoreinfo && (
+                        <>
+                          <TableRow>
+                            <TableCell component="th" scope="row">
+                              発生バージョン
+                            </TableCell>
+                            <TableCell scope="row">
+                              {issueStore.issue.versions?.map((version) => version.name).join(",")}
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell component="th" scope="row">
+                              予定時間
+                            </TableCell>
+                            <TableCell scope="row">
+                              {issueStore.issue.estimatedHours}
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell component="th" scope="row">
+                              完了理由
+                            </TableCell>
+                            <TableCell scope="row">
+                              {issueStore.issue.resolution?.name}
+                            </TableCell>
+                          </TableRow>
+                        </>
+                      )}
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -153,7 +158,7 @@ export const Issue: React.FC = observer((props) => {
                   <Table aria-label="simple table">
                     <TableBody>
                       <TableRow>
-                        <TableCell component="th" scope="row">
+                        <TableCell component="th" scope="row" width={180}>
                           担当者
                         </TableCell>
                         <TableCell scope="row" style={{ padding: 0 }}>
@@ -175,28 +180,36 @@ export const Issue: React.FC = observer((props) => {
                           {issueStore.issue.milestone?.map((milestone) => milestone.name).join(",")}
                         </TableCell>
                       </TableRow>
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          &nbsp;
-                        </TableCell>
-                        <TableCell scope="row">
-                          &nbsp;
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell component="th" scope="row">
-                          実績時間
-                        </TableCell>
-                        <TableCell scope="row">
-                          {issueStore.issue.actualHours}
-                        </TableCell>
-                      </TableRow>
+                      {showMoreinfo && (
+                        <>
+                          <TableRow>
+                            <TableCell component="th" scope="row">
+                              &nbsp;
+                            </TableCell>
+                            <TableCell scope="row">
+                              &nbsp;
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell component="th" scope="row">
+                              実績時間
+                            </TableCell>
+                            <TableCell scope="row">
+                              {issueStore.issue.actualHours}
+                            </TableCell>
+                          </TableRow>
+                        </>
+                      )}
                     </TableBody>
                   </Table>
                 </TableContainer>
               </Box>
             </Box>
-
+            <Box mt={2}>
+              <Button variant="text" disableElevation fullWidth onClick={() => setShowMoreInfo(!showMoreinfo)}>
+                {showMoreinfo ? <ArrowUpward /> : <ArrowDownward /> }
+              </Button>
+            </Box>
           </CardContent>
         </Card>
       </Box>
