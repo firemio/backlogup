@@ -1,16 +1,21 @@
 import { makeAutoObservable } from "mobx";
+import { Document as FlexSearchDocument } from "flexsearch";
 import type { RootStore } from ".";
+import type * as backlog from "backlog-js";
 
 export class PageStore {
   private rootStore: RootStore;
 
-  public loading = false;
-  public pages: any[] = [];
+  public loadingPages = false;
+  public loadingIndexes = false;
+  private internalPages: backlog.Entity.Issue.Issue[] = [];
   public totalPage = 0;
   public currentDownloading = 0;
   public page = 0;
   public pageSize = 20;
   public issueKeyIndex: {[issueKey: string]: string} = {};
+  public searchIndex: FlexSearchDocument<unknown, false> | undefined;
+  public keyword = "";
 
   constructor(root: RootStore) {
     this.rootStore = root;
@@ -23,7 +28,7 @@ export class PageStore {
       return;
     }
 
-    this.loading = true;
+    this.loadingPages = true;
 
     try {
       const pageInfo = await fetch("/assets/configs/pages.json");
@@ -34,8 +39,8 @@ export class PageStore {
       for (let i = start; i <= end; i++) {
         this.currentDownloading = i;
 
-        const req = await fetch(`/assets/pages/${i}.json`);
-        const page: any[] = await req.json();
+        const res = await fetch(`/assets/pages/${i}.json`);
+        const page: backlog.Entity.Issue.Issue[] = await res.json();
         pages.push(...page);
 
         // const index: {[issueKey: string]: string} = { ...this.issueKeyIndex };
@@ -44,9 +49,33 @@ export class PageStore {
         // });
         // this.issueKeyIndex = index;
       }
-      this.pages = pages;
+      this.internalPages = pages;
     } finally {
-      this.loading = false;
+      this.loadingPages = false;
+    }
+  }
+
+  public async generateIndex() {
+    this.loadingIndexes = true;
+
+    try {
+      const res = await fetch("/assets/configs/search-index.json");
+      const searchIndexes = await res.json();
+
+      this.searchIndex = new FlexSearchDocument({
+        preset: "match",
+        tokenize: "reverse",
+        document: {
+          id: "id",
+          index: "keywords",
+        },
+      });
+
+      for (const searchIndex of searchIndexes) {
+        this.searchIndex.add(searchIndex);
+      }
+    } finally {
+      this.loadingIndexes = false;
     }
   }
 
@@ -55,5 +84,21 @@ export class PageStore {
   }
   setPageSize(pageSize: number) {
     this.pageSize = pageSize;
+  }
+
+  setKeyword(keyword: string) {
+    this.keyword = keyword;
+  }
+
+  get pages() {
+    if (this.keyword.trim() === "") {
+      return this.internalPages;
+    }
+    const search = this.searchIndex?.search(this.keyword.trim());
+    if (!search || search.length === 0) {
+      return [];
+    }
+    const { result } = search[0];
+    return this.internalPages.filter((page) => result.includes(page.id));
   }
 }

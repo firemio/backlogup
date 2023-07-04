@@ -5,13 +5,14 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { observer } from "mobx-react-lite";
 import dayjs from 'dayjs';
 import { Link } from "react-router-dom";
-import { Avatar, Box, Chip, Paper } from "@mui/material";
+import { Avatar, Box, Chip, Paper, TextField } from "@mui/material";
 
 export const Issues: React.FC = observer((props) => {
   const { pageStore } = useStore();
 
   useDidMount(() => {
     pageStore.fetch();
+    pageStore.generateIndex();
   });
 
   const columns: GridColDef[] = [
@@ -91,6 +92,19 @@ export const Issues: React.FC = observer((props) => {
 
   return (
     <Box p={4} style={{ backgroundColor: "#f0f0f0", minHeight: "100vh" }}>
+      <Box mb={1} sx={{ backgroundColor: "white" }}>
+        <TextField
+          variant="outlined"
+          size="small"
+          fullWidth={true}
+          label={pageStore.loadingIndexes ? "キーワード検索 辞書取得中..." : "キーワード検索" }
+          placeholder="mecab-ipadicによる形態素解析結果を使用してキーワード検索"
+          disabled={pageStore.loadingIndexes}
+          value={pageStore.keyword}
+          onChange={(e) => pageStore.setKeyword(e.target.value)}
+        />
+      </Box>
+
       <DataGrid
         rows={pageStore.pages}
         columns={columns}
@@ -100,7 +114,7 @@ export const Issues: React.FC = observer((props) => {
           },
         }}
         pageSizeOptions={[10, 20, 50, 100]}
-        loading={pageStore.loading}
+        loading={pageStore.loadingPages}
         onStateChange={(state) => {
           if (state.pagination?.paginationModel?.page) {
             pageStore.setPage(state.pagination.paginationModel.page);
@@ -112,7 +126,8 @@ export const Issues: React.FC = observer((props) => {
         }}
         sx={{ minHeight: 400, backgroundColor: "white" }}
       />
-      {pageStore.loading && (
+
+      {pageStore.loadingPages && (
         <Box mt={1}>
           <Paper variant="outlined">
             <Box p={1}>
