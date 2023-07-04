@@ -11,6 +11,15 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ArrowDownward, ArrowUpward, ExpandMore } from "@mui/icons-material";
 
+const notificationType = (type: string) => {
+  switch (type) {
+    case "issue.create":
+      return "課題の追加";
+    default:
+      return type;
+  }
+};
+
 export const Issue: React.FC = observer((props) => {
   const { pageStore, issueStore } = useStore();
   const { id: issueId } = useParams();
@@ -240,7 +249,7 @@ export const Issue: React.FC = observer((props) => {
                     {comment.changeLog?.slice().map((changeLog, index) => {
                       switch (changeLog.field) {
                         case "notification":
-                          return <Typography variant="body2" key={index}>◎ お知らせ: {changeLog.notificationInfo.type}</Typography>;
+                          return <Typography variant="body2" key={index}>◎ お知らせ: {notificationType(changeLog.notificationInfo.type)}</Typography>;
                         case "limitDate":
                           return <Typography variant="body2" key={index}>◎ 期限日: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue}</Typography>;
                         case "assigner":
