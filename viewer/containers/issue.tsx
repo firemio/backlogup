@@ -272,23 +272,25 @@ export const Issue: React.FC = observer((props) => {
                             </Box>
                           );
                         case "component":
-                          return <Typography variant="body2" key={index}>◎ カテゴリー: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue}</Typography>;
+                          return <Typography variant="body2" key={index}>◎ カテゴリー: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         case "resolution":
-                          return <Typography variant="body2" key={index}>◎ 完了理由: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue}</Typography>;
+                          return <Typography variant="body2" key={index}>◎ 完了理由: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         case "milestone":
-                          return <Typography variant="body2" key={index}>◎ マイルストーン: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue}</Typography>;
+                          return <Typography variant="body2" key={index}>◎ マイルストーン: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         case "priority":
-                          return <Typography variant="body2" key={index}>◎ 優先度: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue}</Typography>;
+                          return <Typography variant="body2" key={index}>◎ 優先度: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         case "issueType":
-                          return <Typography variant="body2" key={index}>◎ 種別: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue}</Typography>;
+                          return <Typography variant="body2" key={index}>◎ 種別: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         case "estimatedHours":
-                          return <Typography variant="body2" key={index}>◎ 予定時間: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue}</Typography>;
+                          return <Typography variant="body2" key={index}>◎ 予定時間: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         case "actualHours":
-                          return <Typography variant="body2" key={index}>◎ 実績時間: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue}</Typography>;
+                          return <Typography variant="body2" key={index}>◎ 実績時間: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         case "status":
-                          return <Typography variant="body2" key={index}>◎ 状態: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue}</Typography>;
+                          return <Typography variant="body2" key={index}>◎ 状態: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         case "attachment":
                           return <Typography variant="body2" key={index}>◎ 添付ファイル: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "削除"} {changeLog.attachmentInfo && <a href={`/assets/issues/${issueId}/attachments/${changeLog.attachmentInfo.id}`} download={changeLog.attachmentInfo?.name}>ダウンロード</a>}</Typography>;
+                        case "summary":
+                          return <Typography variant="body2" key={index}>◎ 件名: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         default:
                           return <Typography variant="body2" key={index}>◎ 不明イベント: {JSON.stringify(changeLog)}</Typography>;
                       }
