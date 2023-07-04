@@ -36,7 +36,17 @@ const styles = {
       },
       ".MuiDataGrid-overlayWrapperInner": {
         position: "fixed",
-      }
+      },
+      ".markdown-body": {
+        $nest: {
+          "blockquote": {
+            borderLeft: "4px solid #cccccc",
+            marginLeft: 0,
+            paddingLeft: 10,
+            color: "#666666",
+          },
+        },
+      },
     },
   }),
 };

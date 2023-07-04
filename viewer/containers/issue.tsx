@@ -71,6 +71,7 @@ export const Issue: React.FC = observer((props) => {
             </Box>
             <Box>
               <ReactMarkdown
+                className="markdown-body"
                 remarkPlugins={[[remarkGfm, { singleTilde: false, }]]}
                 components={{
                   code({node, inline, className, children, ...props}) {
@@ -293,6 +294,7 @@ export const Issue: React.FC = observer((props) => {
                       }
                     })}
                     <ReactMarkdown
+                      className="markdown-body"
                       remarkPlugins={[[remarkGfm, { singleTilde: false, }]]}
                       components={{
                         code({node, inline, className, children, ...props}) {
