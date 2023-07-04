@@ -39,9 +39,9 @@ export const Issue: React.FC = observer((props) => {
         <Box>
           <Box display={"inline-block"}>
             <Box display={"inline-block"}>開始日</Box>
-            <Box display={"inline-block"} ml={1}>{issueStore.issue.dueDate ? dayjs(issueStore.issue.startDate).format("YYYY/MM/DD") : "-"}</Box>
+            <Box display={"inline-block"} ml={1}>{issueStore.issue.startDate ? dayjs(issueStore.issue.startDate).format("YYYY/MM/DD") : "-"}</Box>
           </Box>
-          <Box display={"inline-block"} ml={3} style={dayjs(issueStore.issue.dueDate).isBefore(dayjs()) ? { color: "#f42858" } : undefined}>
+          <Box display={"inline-block"} ml={3} style={ (issueStore.issue.dueDate && dayjs(issueStore.issue.dueDate).isBefore(dayjs())) ? { color: "#f42858" } : undefined}>
             <Box display={"inline-block"}>期限日</Box>
             <Box display={"inline-block"} ml={1}>{issueStore.issue.dueDate ? dayjs(issueStore.issue.dueDate).format("YYYY/MM/DD") : "-"} {dayjs(issueStore.issue.dueDate).isBefore(dayjs()) ? "🔥" : ""}</Box>
           </Box>
