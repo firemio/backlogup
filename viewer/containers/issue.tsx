@@ -62,7 +62,7 @@ export const Issue: React.FC = observer((props) => {
               </Box>
               <Box ml={1.5}>
                 <Box>
-                  <Typography variant="body1">{issueStore.issue.createdUser?.name}</Typography>
+                  <Typography variant="body1" fontWeight={"bold"}>{issueStore.issue.createdUser?.name}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="caption">登録日: {dayjs(issueStore.issue.created).format("YYYY/MM/DD HH:mm:ss")}</Typography>
