@@ -95,14 +95,17 @@ export class PageStore {
   }
 
   get pages() {
-    if (this.keyword.trim() === "") {
+    const keyword = this.keyword.trim();
+    if (keyword === "") {
       return this.internalPages;
     }
-    const search = this.searchIndex?.search(this.keyword.trim());
-    if (!search || search.length === 0) {
-      return [];
-    }
-    const { result } = search[0];
-    return this.internalPages.filter((page) => result.includes(page.id));
+    const search = this.searchIndex?.search(keyword);
+    const response = search?.pop();
+    return this.internalPages.filter((page) =>
+      response?.result?.includes(page.id) ||
+      page.issueKey.includes(keyword) ||
+      page.summary.includes(keyword) ||
+      page.description.includes(keyword)
+    );
   }
 }
