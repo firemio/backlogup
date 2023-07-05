@@ -56,6 +56,10 @@ export class PageStore {
   }
 
   public async generateIndex() {
+    if (this.searchIndex) {
+      return;
+    }
+
     this.loadingIndexes = true;
 
     try {
