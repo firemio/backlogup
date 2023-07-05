@@ -10,6 +10,8 @@ import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ArrowDownward, ArrowUpward, ExpandMore } from "@mui/icons-material";
+import { UserHeader } from "../components/userHeader";
+import { NotificationUser } from "../components/notificationUser";
 
 const notificationType = (type: string) => {
   switch (type) {
@@ -65,19 +67,11 @@ export const Issue: React.FC = observer((props) => {
       <Box>
         <Card variant="outlined">
           <CardContent>
-            <Box display={"flex"} alignItems={"center"}>
+            <UserHeader user={issueStore.issue.createdUser}>
               <Box>
-                <Avatar alt={issueStore.issue.createdUser?.name} src={`/assets/users/${issueStore.issue.createdUser?.id}/icon`} />
+                <Typography variant="caption">登録日: {dayjs(issueStore.issue.created).format("YYYY/MM/DD HH:mm:ss")}</Typography>
               </Box>
-              <Box ml={1.5}>
-                <Box>
-                  <Typography variant="body1" fontWeight={"bold"}>{issueStore.issue.createdUser?.name}</Typography>
-                </Box>
-                <Box>
-                  <Typography variant="caption">登録日: {dayjs(issueStore.issue.created).format("YYYY/MM/DD HH:mm:ss")}</Typography>
-                </Box>
-              </Box>
-            </Box>
+            </UserHeader>
             <Box>
               <ReactMarkdown
                 className="markdown-body"
@@ -232,19 +226,11 @@ export const Issue: React.FC = observer((props) => {
             <CardContent>
               {issueStore.comments.slice().sort((a, b) => a.id > b.id ? 1 : -1).map((comment, index) => (
                 <Box key={comment.id}>
-                  <Box display={"flex"} alignItems={"center"}>
-                    <Box style={{ position: "relative" }}>
-                      <Avatar alt={comment.createdUser?.name} src={`/assets/users/${comment.createdUser?.id}/icon`}/>
+                  <UserHeader user={comment.createdUser}>
+                    <Box>
+                      <Typography variant="caption">{dayjs(comment.created).format("YYYY/MM/DD HH:mm:ss")}</Typography>
                     </Box>
-                    <Box ml={1.5}>
-                      <Box>
-                        <Typography variant="body1" fontWeight={"bold"}>{comment.createdUser?.name}</Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="caption">{dayjs(comment.created).format("YYYY/MM/DD HH:mm:ss")}</Typography>
-                      </Box>
-                    </Box>
-                  </Box>
+                  </UserHeader>
                   <Box mt={2} ml={"50px"}>
                     {comment.changeLog?.slice().map((changeLog, index) => {
                       switch (changeLog.field) {
@@ -310,7 +296,6 @@ export const Issue: React.FC = observer((props) => {
                       components={{
                         code({node, inline, className, children, ...props}) {
                           const match = /language-(\w+)/.exec(className || '')
-                          console.log("className:", className);
                           return inline ? (
                             <code {...props} className={className}>
                               {children}
@@ -335,6 +320,11 @@ export const Issue: React.FC = observer((props) => {
                     </ReactMarkdown>
                     {comment.created !== comment.updated && (
                       <Typography variant="caption" color="textSecondary">（編集済み）</Typography>
+                    )}
+                  </Box>
+                  <Box display={"flex"} justifyContent={"flex-end"} mt={3}>
+                    {comment.notifications.map((notification) =>
+                      <NotificationUser key={notification.id} user={notification.user} alreadyRead={notification.resourceAlreadyRead} />
                     )}
                   </Box>
                   {index < issueStore.comments.length - 1 && (

@@ -1,11 +1,12 @@
 import { makeAutoObservable } from "mobx";
 import type { RootStore } from ".";
+import type * as backlog from 'backlog-js';
 
 export class IssueStore {
   private rootStore: RootStore;
 
-  public issue: any = {};
-  public comments: any[] = [];
+  public issue: backlog.Entity.Issue.Issue | {} = {};
+  public comments: backlog.Entity.Issue.Comment[] = [];
 
   constructor(root: RootStore) {
     this.rootStore = root;
