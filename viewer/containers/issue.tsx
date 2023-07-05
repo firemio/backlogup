@@ -246,9 +246,9 @@ export const Issue: React.FC = observer((props) => {
                           return <Typography variant="body2" key={index}>◎ 親課題: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue}</Typography>;
                         case "description":
                           return (
-                            <Box display={"flex"} alignItems={"baseline"}>
+                            <Box display={"flex"} alignItems={"baseline"} key={index}>
                               <Box>
-                                <Typography variant="body2" key={index}>◎ 詳細:</Typography>
+                                <Typography variant="body2">◎ 詳細:</Typography>
                               </Box>
                               <Accordion style={{ flex: 1, marginLeft: 8, marginTop: 0 }} variant="outlined">
                                 <AccordionSummary expandIcon={<ExpandMore />}>
