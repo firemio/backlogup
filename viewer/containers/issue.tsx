@@ -166,14 +166,16 @@ export const Issue: React.FC = observer((props) => {
                           担当者
                         </TableCell>
                         <TableCell scope="row" style={{ padding: 0 }}>
-                          <Box display={"flex"} alignItems={"center"}>
-                            <Box>
-                              <Avatar sx={{ width: 24, height: 24, m: 0 }} alt={issueStore.issue.assignee?.name} src={`/assets/users/${issueStore.issue.assignee?.id}/icon`} />
+                          {issueStore.issue.assignee?.name && (
+                            <Box display={"flex"} alignItems={"center"}>
+                              <Box>
+                                <Avatar sx={{ width: 24, height: 24, m: 0 }} alt={issueStore.issue.assignee?.name} src={`/assets/users/${issueStore.issue.assignee?.id}/icon`} />
+                              </Box>
+                              <Box ml={1.5}>
+                                {issueStore.issue.assignee?.name}
+                              </Box>
                             </Box>
-                            <Box ml={1.5}>
-                              {issueStore.issue.assignee?.name}
-                            </Box>
-                          </Box>
+                          )}
                         </TableCell>
                       </TableRow>
                       <TableRow>

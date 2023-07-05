@@ -5,7 +5,7 @@ import type * as backlog from 'backlog-js';
 export class IssueStore {
   private rootStore: RootStore;
 
-  public issue: backlog.Entity.Issue.Issue | {} = {};
+  public issue: backlog.Entity.Issue.Issue = {} as backlog.Entity.Issue.Issue;
   public comments: backlog.Entity.Issue.Comment[] = [];
 
   constructor(root: RootStore) {
