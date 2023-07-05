@@ -42,9 +42,16 @@ export const Issues: React.FC = observer((props) => {
       headerName: "担当者",
       flex: 1,
       valueGetter: (params) => params.row?.assignee?.name,
-      renderCell: (params) => params.row?.assignee?.name ?
-        <Box display={"flex"} alignItems={"center"}><Avatar sx={{ width: 24, height: 24, mr: 0.5 }} alt={params.row?.assignee?.name} src={`/assets/users/${params.row?.assignee?.id}/icon`}/>{params.row?.assignee?.name}</Box> :
-        params.row?.assignee?.name
+      renderCell: (params) => params.row?.assignee?.name ? (
+        <Box display={"flex"} alignItems={"center"}>
+          <Avatar
+            alt={params.row?.assignee?.name}
+            src={`/assets/users/${params.row?.assignee?.id}/icon`}
+            sx={{ width: 24, height: 24, fontSize: 12, mr: 0.5 }}
+          />
+            {params.row?.assignee?.name}
+        </Box>
+        ) : params.row?.assignee?.name
     },
     {
       field: "状態",

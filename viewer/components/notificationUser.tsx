@@ -20,7 +20,11 @@ export const NotificationUser: React.FC<Props> = (props: Props) => {
             color="success"
             variant="dot"
           >
-            <Avatar alt={props.user?.name} src={`/assets/users/${props.user?.id}/icon`} sx={{ width: 24, height: 24, opacity: props.alreadyRead ? 1 : 0.6 }} />
+            <Avatar
+              alt={props.user?.name}
+              src={`/assets/users/${props.user?.id}/icon`}
+              sx={{ width: 24, height: 24, fontSize: 12, opacity: props.alreadyRead ? 1 : 0.6 }}
+            />
           </Badge>
       </Tooltip>
     </Box>

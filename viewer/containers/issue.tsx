@@ -169,7 +169,11 @@ export const Issue: React.FC = observer((props) => {
                           {issueStore.issue.assignee?.name && (
                             <Box display={"flex"} alignItems={"center"}>
                               <Box>
-                                <Avatar sx={{ width: 24, height: 24, m: 0 }} alt={issueStore.issue.assignee?.name} src={`/assets/users/${issueStore.issue.assignee?.id}/icon`} />
+                                <Avatar
+                                  alt={issueStore.issue.assignee?.name}
+                                  src={`/assets/users/${issueStore.issue.assignee?.id}/icon`}
+                                  sx={{ width: 24, height: 24, fontSize: 12, m: 0 }}
+                                />
                               </Box>
                               <Box ml={1.5}>
                                 {issueStore.issue.assignee?.name}
