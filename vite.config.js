@@ -8,16 +8,16 @@ export default defineConfig(({ mode }) => {
 
   return {
     root: "./viewer/",
-    publicDir: "../scripts/backlog/dist",
-    server: {
-      hmr: {
-        protocol: "ws",
-      },
-    },
+    base: "./",
+    publicDir: "../scripts/backlog/dist/assets",
     build: {
       sourcemap: true,
-      outDir: "../dist/",
+      outDir: "../dist",
+      emptyOutDir: true,
       copyPublicDir: true,
+      rollupOptions: {
+        input: "./viewer/index.html"
+      }
     },
     plugins: [
       nodePolyfills(),
@@ -31,7 +31,6 @@ export default defineConfig(({ mode }) => {
           },
         },
       }),
-      splitVendorChunkPlugin(),
     ],
   };
 });

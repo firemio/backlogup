@@ -20,8 +20,8 @@ export class IssueStore {
     }
 
     const [issue, comments] = await Promise.all([
-      fetch(`/assets/issues/${issueId}/issue.json`),
-      fetch(`/assets/issues/${issueId}/comments.json`)
+      fetch(`./issues/${issueId}/issue.json`),
+      fetch(`./issues/${issueId}/comments.json`)
     ]);
     this.issue = await issue.json();
     this.comments = await comments.json();

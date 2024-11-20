@@ -25,7 +25,7 @@ const notificationType = (type: string) => {
 export const Issue: React.FC = observer((props) => {
   const { pageStore, issueStore } = useStore();
   const { id: issueId } = useParams();
-  const [ showMoreinfo, setShowMoreInfo ] = useState(false);
+  const [showMoreinfo, setShowMoreInfo] = useState(false);
 
   useDidMount(() => {
     pageStore.fetch();
@@ -52,7 +52,7 @@ export const Issue: React.FC = observer((props) => {
             <Box display={"inline-block"}>開始日</Box>
             <Box display={"inline-block"} ml={1}>{issueStore.issue.startDate ? dayjs(issueStore.issue.startDate).format("YYYY/MM/DD") : "-"}</Box>
           </Box>
-          <Box display={"inline-block"} ml={3} style={ (issueStore.issue.dueDate && dayjs(issueStore.issue.dueDate).isBefore(dayjs())) ? { color: "#f42858" } : undefined}>
+          <Box display={"inline-block"} ml={3} style={(issueStore.issue.dueDate && dayjs(issueStore.issue.dueDate).isBefore(dayjs())) ? { color: "#f42858" } : undefined}>
             <Box display={"inline-block"}>期限日</Box>
             <Box display={"inline-block"} ml={1}>{issueStore.issue.dueDate ? dayjs(issueStore.issue.dueDate).format("YYYY/MM/DD") : "-"} {dayjs(issueStore.issue.dueDate).isBefore(dayjs()) ? "🔥" : ""}</Box>
           </Box>
@@ -77,7 +77,7 @@ export const Issue: React.FC = observer((props) => {
                 className="markdown-body"
                 remarkPlugins={[[remarkGfm, { singleTilde: false, }]]}
                 components={{
-                  code({node, inline, className, children, ...props}) {
+                  code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || '')
                     return inline ? (
                       <code {...props} className={className}>
@@ -98,7 +98,7 @@ export const Issue: React.FC = observer((props) => {
               >
                 {issueStore.issue.description?.replace(/!\[image\]\[(.*?)\]/g, (all, match1) => {
                   const targetAttachmentId = issueStore.issue.attachments?.slice().find((attachment) => attachment.name === match1)?.id;
-                  return `![image](/assets/issues/${issueId}/attachments/${targetAttachmentId})`;
+                  return `![image](./issues/${issueId}/attachments/${targetAttachmentId})`;
                 }).replaceAll("\n", "  \n")}
               </ReactMarkdown>
             </Box>
@@ -171,7 +171,7 @@ export const Issue: React.FC = observer((props) => {
                               <Box>
                                 <Avatar
                                   alt={issueStore.issue.assignee?.name}
-                                  src={`/assets/users/${issueStore.issue.assignee?.id}/icon`}
+                                  src={`./users/${issueStore.issue.assignee?.id}/icon`}
                                   sx={{ width: 24, height: 24, fontSize: 12, m: 0 }}
                                 />
                               </Box>
@@ -217,7 +217,7 @@ export const Issue: React.FC = observer((props) => {
             </Box>
             <Box mt={2}>
               <Button variant="text" disableElevation fullWidth onClick={() => setShowMoreInfo(!showMoreinfo)}>
-                {showMoreinfo ? <ArrowUpward /> : <ArrowDownward /> }
+                {showMoreinfo ? <ArrowUpward /> : <ArrowDownward />}
               </Button>
             </Box>
           </CardContent>
@@ -289,7 +289,7 @@ export const Issue: React.FC = observer((props) => {
                         case "status":
                           return <Typography variant="body2" key={index}>◎ 状態: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         case "attachment":
-                          return <Typography variant="body2" key={index}>◎ 添付ファイル: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "削除"} {changeLog.attachmentInfo && <a href={`/assets/issues/${issueId}/attachments/${changeLog.attachmentInfo.id}`} download={changeLog.attachmentInfo?.name}>ダウンロード</a>}</Typography>;
+                          return <Typography variant="body2" key={index}>◎ 添付ファイル: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "削除"} {changeLog.attachmentInfo && <a href={`./issues/${issueId}/attachments/${changeLog.attachmentInfo.id}`} download={changeLog.attachmentInfo?.name}>ダウンロード</a>}</Typography>;
                         case "summary":
                           return <Typography variant="body2" key={index}>◎ 件名: {changeLog.originalValue || "未設定"} ➡️ {changeLog.newValue || "未設定"}</Typography>;
                         default:
@@ -300,7 +300,7 @@ export const Issue: React.FC = observer((props) => {
                       className="markdown-body"
                       remarkPlugins={[[remarkGfm, { singleTilde: false, }]]}
                       components={{
-                        code({node, inline, className, children, ...props}) {
+                        code({ node, inline, className, children, ...props }) {
                           const match = /language-(\w+)/.exec(className || '')
                           return inline ? (
                             <code {...props} className={className}>
@@ -321,7 +321,7 @@ export const Issue: React.FC = observer((props) => {
                     >
                       {comment.content?.replace(/!\[image\]\[(.*?)\]/g, (all, match1) => {
                         const targetAttachmentId = comment.changeLog?.slice().find((attachment) => attachment.attachmentInfo?.name === match1)?.attachmentInfo.id;
-                        return `![image](/assets/issues/${issueId}/attachments/${targetAttachmentId})`;
+                        return `![image](./issues/${issueId}/attachments/${targetAttachmentId})`;
                       }).replaceAll("\n", "  \n")}
                     </ReactMarkdown>
                     {comment.created !== comment.updated && (

@@ -4,6 +4,7 @@
 
 Backlog APIを叩いて、指定したプロジェクトのデータをバックアップします。  
 バックアップしたデータは簡易ビューアで閲覧できます。
+静的ファイル配信に対応。
 
 ![](https://i.imgur.com/CWX1wbL.png)
 ![](https://i.imgur.com/ylTYYPW.png)
@@ -20,6 +21,7 @@ Backlog APIを叩いて、指定したプロジェクトのデータをバック
 
 - `npm run build`
 - `dist` ディレクトリに、バックアップも含めてアセット一式が保存されます
+
 
 ## ライセンス
 

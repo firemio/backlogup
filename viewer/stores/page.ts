@@ -13,7 +13,7 @@ export class PageStore {
   public currentDownloading = 0;
   public page = 0;
   public pageSize = 20;
-  public issueKeyIndex: {[issueKey: string]: string} = {};
+  public issueKeyIndex: { [issueKey: string]: string } = {};
   public searchIndex: FlexSearchDocument<unknown, false> | undefined;
   public keyword = "";
 
@@ -31,7 +31,7 @@ export class PageStore {
     this.loadingPages = true;
 
     try {
-      const pageInfo = await fetch("/assets/configs/pages.json");
+      const pageInfo = await fetch("./configs/pages.json");
       const { start, end } = await pageInfo.json();
       this.totalPage = end;
 
@@ -39,7 +39,7 @@ export class PageStore {
       for (let i = start; i <= end; i++) {
         this.currentDownloading = i;
 
-        const res = await fetch(`/assets/pages/${i}.json`);
+        const res = await fetch(`./pages/${i}.json`);
         const page: backlog.Entity.Issue.Issue[] = await res.json();
         pages.push(...page);
 
@@ -63,7 +63,7 @@ export class PageStore {
     this.loadingIndexes = true;
 
     try {
-      const res = await fetch("/assets/configs/search-index.json");
+      const res = await fetch("./configs/search-index.json");
       const searchIndexes = await res.json();
 
       this.searchIndex = new FlexSearchDocument({

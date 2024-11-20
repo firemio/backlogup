@@ -11,7 +11,7 @@ export const UserHeader: React.FC<Props> = (props: Props) => {
   return (
     <Box display={"flex"} alignItems={"center"}>
       <Box>
-        <Avatar alt={props.user?.name} src={`/assets/users/${props.user?.id}/icon`} />
+        <Avatar alt={props.user?.name} src={`./users/${props.user?.id}/icon`} />
       </Box>
       <Box ml={1.5}>
         <Box>

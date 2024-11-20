@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStore } from "../stores";
 import { useDidMount } from "@better-hooks/lifecycle";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -14,6 +14,16 @@ export const Issues: React.FC = observer((props) => {
     pageStore.fetch();
     pageStore.generateIndex();
   });
+
+  useEffect(() => {
+    const loadData = async () => {
+      // 静的ファイルとして配置されたJSONを fetch で取得
+      const response = await fetch('./configs/pages.json');
+      const data = await response.json();
+      pageStore.setPages(data);
+    };
+    loadData();
+  }, []);
 
   const columns: GridColDef[] = [
     {
@@ -46,12 +56,12 @@ export const Issues: React.FC = observer((props) => {
         <Box display={"flex"} alignItems={"center"}>
           <Avatar
             alt={params.row?.assignee?.name}
-            src={`/assets/users/${params.row?.assignee?.id}/icon`}
+            src={`./users/${params.row?.assignee?.id}/icon`}
             sx={{ width: 24, height: 24, fontSize: 12, mr: 0.5 }}
           />
-            {params.row?.assignee?.name}
+          {params.row?.assignee?.name}
         </Box>
-        ) : params.row?.assignee?.name
+      ) : params.row?.assignee?.name
     },
     {
       field: "状態",
@@ -73,7 +83,7 @@ export const Issues: React.FC = observer((props) => {
       width: 72,
       valueGetter: (params) => params.row?.priority?.name,
       renderCell: (params) => {
-        switch(params.row?.priority?.name) {
+        switch (params.row?.priority?.name) {
           case "高":
             return <span style={{ color: "#f42858" }}>⬆</span>;
           case "中":
@@ -104,7 +114,7 @@ export const Issues: React.FC = observer((props) => {
           variant="outlined"
           size="small"
           fullWidth={true}
-          label={pageStore.loadingIndexes ? "キーワード検索 辞書取得中..." : "キーワード検索" }
+          label={pageStore.loadingIndexes ? "キーワード検索 辞書取得中..." : "キーワード検索"}
           placeholder="mecab-ipadicによる形態素解析結果を使用してキーワード検索"
           disabled={pageStore.loadingIndexes}
           value={pageStore.keyword}

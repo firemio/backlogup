@@ -6,7 +6,7 @@ import { configure } from "mobx";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { style } from "typestyle";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Index } from "./containers";
@@ -55,12 +55,12 @@ const styles = {
 createRoot(document.querySelector("#app")!).render(
   <div className={styles.root}>
     <CssBaseline />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/issues" element={<Issues />} />
-          <Route path="/issues/:id" element={<Issue />} />
-        </Routes>
-      </BrowserRouter>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/issues" element={<Issues />} />
+        <Route path="/issues/:id" element={<Issue />} />
+      </Routes>
+    </HashRouter>
   </div>
 );
