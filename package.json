@@ -16,8 +16,6 @@
   "license": "MIT",
   "devDependencies": {
     "@types/flexsearch": "^0.7.3",
-    "@types/isomorphic-fetch": "^0.0.36",
-    "@types/isomorphic-form-data": "^2.0.1",
     "@types/node": "^20.3.2",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
@@ -41,8 +39,6 @@
     "backlog-js": "^0.13.0",
     "dayjs": "^1.11.8",
     "flexsearch": "0.7.21",
-    "isomorphic-fetch": "^3.0.0",
-    "isomorphic-form-data": "^2.0.0",
     "kuromojin": "^3.0.0",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^3.4.3",
@@ -57,7 +53,6 @@
     "sanitize.css": "^13.0.0",
     "strip-markdown": "^5.0.1",
     "typestyle": "^2.4.0",
-    "vite-plugin-node-stdlib-browser": "^0.2.1",
     "vite-tsconfig-paths": "^4.2.0"
   },
   "private": true

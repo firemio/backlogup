@@ -1,5 +1,3 @@
-import "isomorphic-form-data";
-import "isomorphic-fetch";
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
 import { mkdir, rm, writeFile } from "fs/promises";
@@ -20,7 +18,7 @@ try {
     force: true,
     recursive: true,
   });
-} catch (e) {}
+} catch (e) { }
 await mkdir(distConfigs, {
   recursive: true,
 });
