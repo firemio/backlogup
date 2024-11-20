@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf scripts/backlog/dist dist",
+    "backup": "run-s backup:issue backup:textsearch",
     "backup:issue": "tsx scripts/backlog/index.mts",
     "backup:textsearch": "tsx scripts/textsearch/index.mts",
     "build": "vite build",
@@ -23,6 +24,7 @@
     "@types/react-syntax-highlighter": "^15.5.7",
     "dotenv": "^16.3.1",
     "npm-run-all": "^4.1.5",
+    "rimraf": "^6.0.1",
     "rome": "^12.1.3",
     "tsx": "^3.12.7",
     "typescript": "^5.1.5",
