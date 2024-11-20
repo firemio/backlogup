@@ -1,6 +1,6 @@
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
-import { writeFile } from "fs/promises";
+import { writeFile, readFile } from "fs/promises";
 import { config } from "dotenv";
 import { remark } from "remark";
 import strip from "strip-markdown";
@@ -8,7 +8,7 @@ import { tokenize } from "kuromojin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const dist = resolve(__dirname, "../backlog", "dist", "assets");
+const dist = resolve(__dirname, "..", "backlog", "dist", "assets");
 const distConfigs = resolve(dist, "configs");
 const distIssuePages = resolve(dist, "pages");
 const distIssues = resolve(dist, "issues");
@@ -22,14 +22,14 @@ const stripMarkdown = async (str: string) => (await remarkCache.process(str)).va
 
 const documents = [];
 
-const { start, end } = await import(resolve(distConfigs, "pages.json"));
+const { start, end } = JSON.parse(await readFile(resolve(distConfigs, "pages.json"), 'utf-8'));
 for (let i = start; i <= end; i++) {
   console.log("search index:", i + 1, "/", end + 1);
 
-  const { default: page } = await import(resolve(distIssuePages, `${i}.json`));
+  const page = JSON.parse(await readFile(resolve(distIssuePages, `${i}.json`), 'utf-8'));
   for (const id of page.map((p) => p.id)) {
-    const { default: issue } = await import(resolve(distIssues, `${id}`, "issue.json"));
-    const { default: comments } = await import(resolve(distIssues, `${id}`, "comments.json"));
+    const issue = JSON.parse(await readFile(resolve(distIssues, `${id}`, "issue.json"), 'utf-8'));
+    const comments = JSON.parse(await readFile(resolve(distIssues, `${id}`, "comments.json"), 'utf-8'));
 
     const target = [issue.summary, issue.description, ...comments.map((c) => c.content)].join("\n\n");
     const plain = await stripMarkdown(target);

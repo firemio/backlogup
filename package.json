@@ -8,7 +8,8 @@
     "backup": "run-s backup:issue backup:textsearch",
     "backup:issue": "tsx scripts/backlog/index.mts",
     "backup:textsearch": "tsx scripts/textsearch/index.mts",
-    "build": "vite build"
+    "build": "vite build",
+    "viewer": "vite preview"
   },
   "author": "COMMON CREATION, Co., Ltd.",
   "license": "MIT",
@@ -50,7 +51,7 @@
     "react-syntax-highlighter": "^15.5.0",
     "remark": "^14.0.3",
     "remark-gfm": "^3.0.1",
-    "remark-markdown": "^0.0.1",
+    "remark-markdown": "^0.0.0",
     "sanitize.css": "^13.0.0",
     "strip-markdown": "^5.0.1",
     "typestyle": "^2.4.0",
